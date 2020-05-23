@@ -6,10 +6,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import pl.sda.javawwa22project.converter.ItemConverter;
 import pl.sda.javawwa22project.dto.ItemDto;
 import pl.sda.javawwa22project.service.ItemsService;
 
+import javax.validation.Valid;
 import java.util.stream.Collectors;
 
 // 4). define endpoint in controller
@@ -29,8 +31,10 @@ public class ItemController {
         this.itemConverter = itemConverter;
     }
 
+    // /authors/{name}/books/{books-name}
     // /items/1
-    // /items/1024
+    // /items/1024 - /items?id=1024
+    // /authors?name=Ania-Autorka&book="Ania z zielonego wzgórza"
     @GetMapping("/items/{id}")
     public String displayItemById(@PathVariable Long id, Model model) {
         logger.info("displayItemById with id: [{}]", id);
@@ -55,20 +59,18 @@ public class ItemController {
     }
 
     @GetMapping("/add-item")
-    public String addItem(Model model ){
+    public String addItem(Model model) {
         logger.info("addItem()");
+
         model.addAttribute(CURRENT_OPERATION, "Adding new item");
         return "items/add-edit";
-
-
-
-
     }
-    @GetMapping("/item-save")
-    public String saveItem(ItemDto itemToSave){
+
+    @PostMapping("/item-save")
+    public String saveItem(@Valid ItemDto itemToSave) {
+        logger.info("saveItem(), received param: [{}]", itemToSave);
         return "redirect://items/" + itemToSave.getId();
     }
-
     // method reference example
 //    static class Sorter {
 //        static int orderItems(Item one, Item two) {
