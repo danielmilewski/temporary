@@ -6,12 +6,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import pl.sda.javawwa22project.converter.ItemConverter;
 import pl.sda.javawwa22project.dto.ItemDto;
 import pl.sda.javawwa22project.service.ItemsService;
 
-import javax.validation.Valid;
 import java.util.stream.Collectors;
 
 // 4). define endpoint in controller
@@ -21,6 +19,7 @@ public class ItemController {
     private static final Logger logger = LoggerFactory.getLogger(ItemController.class);
     private static final String ONE_ITEM_KEY = "itemsToShow";
     private static final String MANY_ITEMS_KEY = "items";
+    private static final String CURRENT_OPERATION = "current_operation";
 
     private final ItemsService itemsService;
     private final ItemConverter itemConverter;
@@ -33,7 +32,7 @@ public class ItemController {
     // /items/1
     // /items/1024
     @GetMapping("/items/{id}")
-    String displayItemById(@PathVariable Long id, Model model) {
+    public String displayItemById(@PathVariable Long id, Model model) {
         logger.info("displayItemById with id: [{}]", id);
         var itemDto = itemsService.findItemById(id)
             .map(itemConverter::fromItem)
@@ -44,7 +43,7 @@ public class ItemController {
     }
 
     @GetMapping("/all-items")
-    String getAllItems(Model model) {
+    public String getAllItems(Model model) {
         logger.info("getAllItems");
         var itemsToShow = itemsService.findAllItems()
             .stream()
@@ -56,16 +55,20 @@ public class ItemController {
     }
 
     @GetMapping("/add-item")
-    String addItem() {
+    public String addItem(Model model ){
         logger.info("addItem()");
-
+        model.addAttribute(CURRENT_OPERATION, "Adding new item");
         return "items/add-edit";
-    }
 
-    @PostMapping("/item-save")
-    String saveItem(@Valid ItemDto itemToSave) {
+
+
+
+    }
+    @GetMapping("/item-save")
+    public String saveItem(ItemDto itemToSave){
         return "redirect://items/" + itemToSave.getId();
     }
+
     // method reference example
 //    static class Sorter {
 //        static int orderItems(Item one, Item two) {

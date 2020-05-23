@@ -1,0 +1,27 @@
+<!DOCTYPE html> <html lang="en" xmlns:th="thymeleaf.org">
+<head> <meta charset="UTF-8">
+    <title th:text="${current_operation}">Title</title> </head>
+<body>
+<p th:text="${current_operation}">Operation...</p>
+<form method="get" action="#" th:action="@{/item-save}">
+    <label for="itemName">Item name:</label>
+    <input type="text" id="itemName" name="itemName"><br>
+
+    <label for="description">Item name:</label>
+    <input type="text" id="description" name="itemName"><br>
+
+    <label for="category">Item name:</label>
+    <input type="text" id="category" name="itemName"><br>
+
+    <label for="price">Item name:</label>
+    <input type="text" id="price" name="itemName"><br>
+
+    <label for="quantity">Item name:</label>
+    <input type="number" id="quantity" name="itemName"><br>
+
+    <label for="picture">Item name:</label>
+    <input type="number" id="picture" name="itemName"><br>
+
+    <input type="submit" value="Submit">
+</form> </body>
+</html>
