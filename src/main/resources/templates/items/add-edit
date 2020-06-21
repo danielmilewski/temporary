@@ -8,6 +8,7 @@
     <title th:text="${current_operation}">Title</title>
 </head>
 <body>
+<div class="container">
 <p th:text="${current_operation}">Operation...</p>
 <form method="get" action="#" th:action="@{/item-save}">
     <label for="itemName">Item name:</label>
@@ -29,5 +30,6 @@
     <input type="number" id="picture" name="itemName"><br>
 
     <input type="submit" value="Submit">
-</form> </body>
+</form>
+</div></body>
 </html>
